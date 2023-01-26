@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/registration")
 @RequiredArgsConstructor
-public class RegistrationController {
+public class RegistrationWithController {
 
     private final UserService userService;
 
