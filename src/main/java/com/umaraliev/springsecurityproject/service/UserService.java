@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,5 +53,9 @@ public class UserService implements UserDetailsService {
         }else {
             System.out.println("Mail " + userRegistrationDto.getEmail() +" already registered");
         }
+    }
+
+    public User getUser(String email){
+        return userRepository.findByEmail(email);
     }
 }

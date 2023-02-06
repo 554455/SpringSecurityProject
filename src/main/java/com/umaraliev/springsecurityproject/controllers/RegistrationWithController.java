@@ -3,34 +3,22 @@ package com.umaraliev.springsecurityproject.controllers;
 import com.umaraliev.springsecurityproject.dto.UserRegistrationDto;
 import com.umaraliev.springsecurityproject.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/registration")
+@RestController("/api/v1")
 @RequiredArgsConstructor
 public class RegistrationWithController {
 
     private final UserService userService;
 
-
-    @ModelAttribute("user")
-    public UserRegistrationDto userRegistrationDto() {
-        return new UserRegistrationDto();
-    }
-
-    @GetMapping
-    public String showRegistrationForm() {
-        return "registration";
-    }
-
-    @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-
+    @RequestMapping(method = RequestMethod.GET, value = "/registration")
+    public ResponseEntity<UserRegistrationDto> registerUserAccount(@RequestBody UserRegistrationDto registrationDto) {
         userService.save(registrationDto);
-        return "redirect:/login";
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

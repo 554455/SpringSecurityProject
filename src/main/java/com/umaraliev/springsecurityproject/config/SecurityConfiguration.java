@@ -43,23 +43,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .requestMatchers("/oauth_login", "/loginFailure", "/", "/registration", "/login")
+                .requestMatchers("/", "/registration", "/login", "/oauth2/authorize-client")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin(f->f.loginPage("/login"))
+                .formLogin(f->f.loginProcessingUrl("/login"))
                 .oauth2Login()
-                .loginPage("/oauth_login")
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize-client")
                 .authorizationRequestRepository(oauth2Configuration.authorizationRequestRepository())
                 .and()
                 .tokenEndpoint()
-                .accessTokenResponseClient(oauth2Configuration.accessTokenResponseClient())
-                .and()
-                .defaultSuccessUrl("/loginSuccess")
-                .failureUrl("/loginFailure");
+                .accessTokenResponseClient(oauth2Configuration.accessTokenResponseClient());
         return http.build();
     }
 
